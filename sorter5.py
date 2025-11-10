@@ -611,7 +611,7 @@ class SorterGUI:
             'duplicates_pairs': duplicates_pairs,
             'removed_questions': removed_questions,
             'all_questions': all_questions,
-            'output_file': self.get_output_filename(file_source, len(new_result_dict))
+            'output_file': None
         }
         
         return result
@@ -669,12 +669,16 @@ class SorterGUI:
                 result = self.run_sorter_logic(kof, file_path)
             else:
                 result = self.last_result
-            
+                
+            count = result['final_questions']
+            output_filename = self.get_output_filename(file_path, count)
+
+
             output_file = filedialog.asksaveasfilename(
                 title="Сохранить результат",
                 defaultextension=".txt",
                 filetypes=[("Text files", "*.txt"), ("All files", "*.*")],
-                initialfile=os.path.basename(result['output_file'])
+                initialfile=os.path.basename(output_filename)
             )
             
             if output_file:
